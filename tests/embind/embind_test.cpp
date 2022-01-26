@@ -1240,6 +1240,13 @@ std::vector<std::vector<int> > emval_test_return_vector_of_vectors() {
     return vec3;
 }
 
+std::vector<void *> emval_test_return_void_ptr_vector() {
+    std::vector<void *> myptrs;
+    myptrs.push_back(malloc(0));
+    myptrs.push_back(malloc(0));
+    return myptrs;
+}
+
 std::vector<std::shared_ptr<StringHolder>> emval_test_return_shared_ptr_vector() {
     std::vector<std::shared_ptr<StringHolder>> sharedStrVector;
     sharedStrVector.push_back(std::shared_ptr<StringHolder>(new StringHolder("string #1")));
@@ -1771,6 +1778,7 @@ EMSCRIPTEN_BINDINGS(tests) {
     register_vector<emscripten::val>("EmValVector");
     register_vector<float>("FloatVector");
     register_vector<std::vector<int>>("IntegerVectorVector");
+    register_vector<void *>("VoidPtrVector");
 
     class_<DummyForPointer>("DummyForPointer");
 
@@ -2227,6 +2235,7 @@ EMSCRIPTEN_BINDINGS(tests) {
 
     function("emval_test_return_vector", &emval_test_return_vector);
     function("emval_test_return_vector_of_vectors", &emval_test_return_vector_of_vectors);
+    function("emval_test_return_void_ptr_vector", &emval_test_return_void_ptr_vector, allow_raw_pointers());
 
     register_vector<std::shared_ptr<StringHolder>>("SharedPtrVector");
     function("emval_test_return_shared_ptr_vector", &emval_test_return_shared_ptr_vector);
